@@ -38,7 +38,7 @@ All data is mock data stored inside the JavaScript file.
 
 EduScout contains only two files:
 
-- `eduscout.html` → Contains the full UI structure
+- `index.html` → Contains the full UI structure
 - `script.js` → Contains all rendering logic, filtering, cart handling, and navigation logic
 
 There is no separate CSS file. Styling is handled using Tailwind CSS utility classes inside the HTML file.
@@ -48,7 +48,7 @@ There is no separate CSS file. Styling is handled using Tailwind CSS utility cla
 ## ▶ How To Run
 
 1. Download or clone the repository
-2. Open `eduscout.html` in your browser
+2. Open `index.html` in your browser
 
 No installation or setup required.
 
