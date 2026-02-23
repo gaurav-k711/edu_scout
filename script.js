@@ -58,7 +58,6 @@
         const compareMessageBox = document.getElementById('compareMessageBox');
         const cartMessageBox = document.getElementById('cartMessageBox');
         const checkoutMessageBox = document.getElementById('checkoutMessageBox');
-        const darkModeToggle = document.getElementById('darkModeToggle');
         const paymentForm = document.getElementById('payment-form');
         const checkoutTotalSpan = document.getElementById('checkout-total');
 
@@ -101,23 +100,6 @@
             window.scrollTo(0, 0);
         }
 
-        // Dark mode toggle function
-        function toggleDarkMode() {
-            isDarkMode = !isDarkMode;
-            document.documentElement.classList.toggle('dark', isDarkMode);
-            updateDarkModeIcon();
-        }
-
-        function updateDarkModeIcon() {
-            const icon = isDarkMode ? `
-                <svg class="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 14a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zm4-4a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM3 10a1 1 0 01-1 1H1a1 1 0 110-2h1a1 1 0 011 1zm14.732-5.732a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 111.414-1.414l.707.707zM3.268 14.732a1 1 0 01-1.414-1.414l.707-.707a1 1 0 111.414 1.414l-.707.707zM16.464 16.464l-.707-.707a1 1 0 011.414-1.414l.707.707a1 1 0 01-1.414 1.414zm-12 0l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM10 5a5 5 0 100 10 5 5 0 000-10zm-6 5a6 6 0 1112 0 6 6 0 01-12 0z" />
-                </svg>` : `
-                <svg class="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M17.293 13.914A10 10 0 0111.546 2.457a1 1 0 01.953 2.155A7.999 7.999 0 0011.05 15.011a1 1 0 01.916 1.815 10.001 10.001 0 015.327-3.915 1 1 0 01.004-1.014z" />
-                </svg>`;
-            darkModeToggle.innerHTML = icon;
-        }
 
         // Render functions
         function renderCourseCard(course) {
@@ -129,22 +111,32 @@
                             $${course.price === 0.00 ? 'Free' : course.price.toFixed(2)}
                         </span>
                     </div>
-                    <div class="flex flex-col flex-grow">
+     <div class="flex flex-col flex-grow">
                         <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-gray-50">${course.title}</h3>
                         <p class="text-sm text-gray-600 dark:text-gray-300 mb-4 flex-grow">${course.description}</p>
                     </div>
                     <div class="flex flex-wrap items-center justify-between mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
                         <div class="flex items-center text-sm font-medium text-gray-600 dark:text-gray-400">
-                            <span class="text-lg mr-1">🛒</span>
+                            <svg class="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 0 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118l-2.8-2.034c-.783-.57-.38-1.81.588-1.81h3.462a1 1 0 00.95-.69l1.07-3.292z" />
+                            </svg>
                             ${course.rating.toFixed(1)} (${(course.reviews / 1000).toFixed(0)}k)
                         </div>
                         <div class="flex items-center space-x-2">
-                            
+                            <button onclick="addToCart(${course.id})" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 transition-colors duration-300">
+                                Add to Cart
+                            </button>
+                            <button onclick="addToCompare(${course.id})" class="p-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m-4.5 2.25H21a2.25 2.25 0 002.25-2.25v-10.5a2.25 2.25 0 00-2.25-2.25H12a2.25 2.25 0 00-2.25 2.25v10.5a2.25 2.25 0 002.25 2.25zm.75-10.5h1.5m-1.5 0v-1.5m0 1.5l-1.5-1.5m1.5 1.5l1.5-1.5" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 </div>
             `;
         }
+
 
         function renderFilteredCourses(filtered) {
             courseCardsContainer.innerHTML = filtered.map(renderCourseCard).join('');
@@ -406,7 +398,7 @@
             updateDarkModeIcon();
             updateCartCount();
             
-            darkModeToggle.addEventListener('click', toggleDarkMode);
+            
             searchInput.addEventListener('input', () => filterAndRenderCourses(document.querySelector('#category-filters .bg-indigo-600').dataset.category, sortBySelect.value));
             sortBySelect.addEventListener('change', () => filterAndRenderCourses(document.querySelector('#category-filters .bg-indigo-600').dataset.category, sortBySelect.value));
             paymentForm.addEventListener('submit', handlePayment);
